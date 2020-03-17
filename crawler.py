@@ -5,12 +5,14 @@ import requests
 import collections
 from urllib.parse import urlparse
 
+fileName = "crawlerResults.csv"
 
 class Crawler(object):
 
     def __init__(self, startingUrl):
         self.startingUrl = startingUrl
         self.queue = collections.deque([])
+        self.fileToSave = fileName
         # self.visited = set() #visited will handle duplicate urls among different pages
 
     def getHtml(self, url):
@@ -32,9 +34,9 @@ class Crawler(object):
         self.saveToFile(url, links)
 
     def saveToFile(self, url, links):
-        with open('quotes.csv', 'w', newline='') as file:
+        with open(self.fileToSave, 'a', newline='') as file:
             writer = csv.writer(file)
-            writer.writerow(url)
+            writer.writerow([url, ""])
             for link in links:
                 row = ["", link]
                 writer.writerow(row)
@@ -56,7 +58,7 @@ class Crawler(object):
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Incorrect input found, try again.. Expected run command - 'python crawler.py http://google.com'")
+        print("Incorrect input found, try again.. Expected run command - 'python crawler.py http://www.google.com'")
         quit()
     #crawler = Crawler("http://www.rescale.com") #test
     crawler = Crawler(sys.argv[1])

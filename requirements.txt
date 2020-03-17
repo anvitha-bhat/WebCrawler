@@ -1,0 +1,4 @@
+requests
+unittest
+urllib
+mock==4.0.2
